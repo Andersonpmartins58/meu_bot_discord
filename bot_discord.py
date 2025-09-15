@@ -78,8 +78,16 @@ def keep_alive():
 # --- Configuração ---
 # O token será lido das "Secrets" do Replit, não mais diretamente do código.
 TOKEN = os.getenv("DISCORD_TOKEN")
-if not TOKEN:
-    print("[ERRO] Token não encontrado! Certifique-se de configurar a Secret 'DISCORD_TOKEN' no Replit.")
+YOUTUBE_COOKIES = os.getenv("YOUTUBE_COOKIES")
+
+# Lógica para criar o arquivo de cookies a partir da variável de ambiente
+COOKIE_FILE = 'cookies.txt'
+if YOUTUBE_COOKIES:
+    with open(COOKIE_FILE, 'w') as f:
+        f.write(YOUTUBE_COOKIES)
+    print("[INFO] Arquivo de cookies do YouTube criado com sucesso.")
+else:
+    print("[AVISO] Variável de ambiente YOUTUBE_COOKIES não encontrada. O bot pode ser bloqueado pelo YouTube.")
 
 # --- Fim da Configuração ---
 
@@ -107,14 +115,13 @@ YDL_OPTS = {
         'preferredquality': '192',
     }],
     # Novas opções para evitar bloqueios do YouTube:
-    'ignoreerrors': True,
+    'ignoreerrors': True,  # Continua a playlist mesmo se um vídeo falhar
     'default_search': 'auto',
     'source_address': '0.0.0.0', # Pode ajudar com problemas de rede/IP
-    # A SOLUÇÃO FINAL: Adiciona um "disfarce" de navegador para a requisição
-    'http_headers': {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-    }
+    # A SOLUÇÃO FINAL: Usa o arquivo de cookies se ele existir
+    'cookiefile': COOKIE_FILE if YOUTUBE_COOKIES else None,
 }
+
 # Configurações do FFmpeg
 # O `executable` aponta para o caminho do FFmpeg se não estiver no PATH.
 # Se estiver no PATH, pode deixar como está.
@@ -303,7 +310,7 @@ async def on_message(message):
             await voice_client.disconnect()
             await message.channel.send('👋 Estou indo embora!.')
         else:
-            await message.channel.send('Não estou em um canal de voz.')
+            await message.channel.send('Não estou em nenhum canal de voz.')
 
 # Inicia o servidor web para manter o bot online
 keep_alive()
