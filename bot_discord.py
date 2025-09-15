@@ -231,6 +231,7 @@ async def on_message(message):
     # --- Comando #ajuda ---
     # Mostra a lista de todos os comandos disponíveis
     elif content.startswith('#ajuda'):
+        # AQUI ESTÁ A CORREÇÃO: Garanta que o texto comece e termine com aspas triplas """
         help_message = """
 ```
 📜 LISTA DE COMANDOS DO BOT 📜
