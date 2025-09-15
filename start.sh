@@ -8,4 +8,5 @@ python -m pip install -r requirements.txt
 
 # 2. Inicia o bot do Discord
 echo "--- Dependências instaladas. Iniciando o bot... ---"
-python discord_music_bot.py
+python bot_discord.py
+
