@@ -107,11 +107,14 @@ YDL_OPTS = {
         'preferredquality': '192',
     }],
     # Novas opções para evitar bloqueios do YouTube:
-    'ignoreerrors': True,  # Continua a playlist mesmo se um vídeo falhar
+    'ignoreerrors': True,
     'default_search': 'auto',
-    'source_address': '0.0.0.0' # Pode ajudar com problemas de rede/IP
+    'source_address': '0.0.0.0', # Pode ajudar com problemas de rede/IP
+    # A SOLUÇÃO FINAL: Adiciona um "disfarce" de navegador para a requisição
+    'http_headers': {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    }
 }
-
 # Configurações do FFmpeg
 # O `executable` aponta para o caminho do FFmpeg se não estiver no PATH.
 # Se estiver no PATH, pode deixar como está.
